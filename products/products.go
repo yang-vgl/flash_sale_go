@@ -4,6 +4,14 @@ import "sync"
 
 type Products struct {
 	Number int
+	Wg *sync.WaitGroup
+	List chan int
+}
+
+type Test struct {
+	Number int
+	Wg *sync.WaitGroup
+	List chan int
 }
 
 func GetProduct(number int) Products {
