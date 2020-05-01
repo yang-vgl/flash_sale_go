@@ -9,14 +9,9 @@ import (
 
 var Test string
 
-func Buy(list chan int, wg *sync.WaitGroup) {
+func Buy(list chan int, wg *sync.WaitGroup, user int) {
 	defer wg.Done()
-	val, ok := <-list
-	if ok == false {
-		fmt.Println("sold out !")
-	} else {
-		fmt.Println(val, ok)
-	}
+	list <- user
 }
 
 func Test1() {

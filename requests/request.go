@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
 	"sync"
 	"time"
@@ -32,20 +33,21 @@ func main() {
 
 	s := &http.Server{
 		Addr:         ":8080",
-		Handler:      http.TimeoutHandler(http.HandlerFunc(purchaseRequest), 1*time.Second, "Timeout!\n"),
-		ReadTimeout:  1 * time.Second,
-		WriteTimeout: 1 * time.Second,
+		Handler:      http.TimeoutHandler(http.HandlerFunc(purchaseRequest), 1*time.Second, "Sold Out!\n"),
+		ReadTimeout:  2 * time.Second,
+		WriteTimeout: 2 * time.Second,
 	}
 
 	if err := s.ListenAndServe(); err != nil {
 		fmt.Printf("Server failed: %s\n", err)
 	}
+
 }
 
 func purchaseRequest(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(Products)
 	Products.Wg.Add(1)
-	go actions.Buy(Products.List, Products.Wg)
+	go actions.Buy(Products.List, Products.Wg, random(1, 20000))
 	Products.Wg.Wait()
 }
 
@@ -53,4 +55,8 @@ func slowHandler(w http.ResponseWriter, req *http.Request) {
 	time.Sleep(2 * time.Second)
 	println("slow")
 	io.WriteString(w, "I am slow!\n")
+}
+
+func random(min int, max int) int {
+	return rand.Intn(max-min) + min
 }
