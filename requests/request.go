@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"../actions"
+	"../customers"
 	"../products"
 )
 
@@ -42,6 +43,11 @@ func main() {
 		fmt.Printf("Server failed: %s\n", err)
 	}
 
+	time.Sleep(30 * time.Second)
+	customers := customers.GetCustomers(ProductReady.List)
+	for i, v := range customers {
+		fmt.Println(i, v)
+	}
 }
 
 func purchaseRequest(w http.ResponseWriter, r *http.Request) {
