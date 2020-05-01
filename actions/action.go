@@ -1,21 +1,22 @@
 package actions
 
 import (
-	"../products"
 	"fmt"
 	"sync"
+
+	"../products"
 )
 
 var Test string
 
 func Buy(list chan int, wg *sync.WaitGroup) {
-		defer wg.Done()
-		val, ok := <-list
-		if ok == false {
-			fmt.Println("sold out !")
-		}else{
-			fmt.Println(val, ok)
-		}
+	defer wg.Done()
+	val, ok := <-list
+	if ok == false {
+		fmt.Println("sold out !")
+	} else {
+		fmt.Println(val, ok)
+	}
 }
 
 func Test1() {
@@ -33,12 +34,11 @@ func main() {
 	ProductReady.Wg = wg
 	ProductReady.List = productChan
 
-
 	fmt.Println(ProductReady)
 	/*
-	wg.Add(1)
-	go Buy(productChan, wg)
-	wg.Wait()
-	close(productChan)
+		wg.Add(1)
+		go Buy(productChan, wg)
+		wg.Wait()
+		close(productChan)
 	*/
 }

@@ -4,19 +4,19 @@ import "sync"
 
 type Products struct {
 	Number int
-	Wg *sync.WaitGroup
-	List chan int
+	Wg     *sync.WaitGroup
+	List   chan int
 }
 
 type Test struct {
 	Number int
-	Wg *sync.WaitGroup
-	List chan int
+	Wg     *sync.WaitGroup
+	List   chan int
 }
 
 func GetProduct(number int) Products {
 	products := Products{
-		Number : number,
+		Number: number,
 	}
 	return products
 }
@@ -31,7 +31,3 @@ func PrepareProduct(product Products) (*sync.WaitGroup, chan int) {
 	}
 	return wg, list
 }
-
-
-
-
