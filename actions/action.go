@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"../orders"
 	"../products"
 )
 
@@ -11,7 +12,14 @@ var Test string
 
 func Buy(list chan int, wg *sync.WaitGroup, user int) {
 	defer wg.Done()
-	list <- user
+	val, ok := <-list
+	if ok == false {
+		fmt.Println("sold out !")
+	} else {
+		fmt.Println(val, user, ok)
+		orders.ProcessOrder(user)
+
+	}
 }
 
 func Test1() {

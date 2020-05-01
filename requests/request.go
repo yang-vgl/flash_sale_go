@@ -21,7 +21,7 @@ var Products struct {
 
 func main() {
 
-	ProductReady := products.GetProduct(5)
+	ProductReady := products.GetProduct(500)
 
 	var wg, productChan = products.PrepareProduct(ProductReady)
 
@@ -43,15 +43,9 @@ func main() {
 		fmt.Printf("Server failed: %s\n", err)
 	}
 
-	time.Sleep(30 * time.Second)
-	customers := customers.GetCustomers(ProductReady.List)
-	for i, v := range customers {
-		fmt.Println(i, v)
-	}
 }
 
 func purchaseRequest(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(Products)
 	Products.Wg.Add(1)
 	go actions.Buy(Products.List, Products.Wg, random(1, 20000))
 	Products.Wg.Wait()
@@ -65,4 +59,13 @@ func slowHandler(w http.ResponseWriter, req *http.Request) {
 
 func random(min int, max int) int {
 	return rand.Intn(max-min) + min
+}
+
+func getCustomers(list chan int) {
+	time.Sleep(30 * time.Second)
+	customers := customers.GetCustomers(list)
+	for i, v := range customers {
+		fmt.Println(i, v)
+	}
+
 }

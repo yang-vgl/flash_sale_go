@@ -26,8 +26,8 @@ func PrepareProduct(product Products) (*sync.WaitGroup, chan int) {
 
 	list := make(chan int, product.Number)
 
-	//for i := 0; i < product.Number; i++ {
-	//	list <- i
-	//}
+	for i := 0; i < product.Number; i++ {
+		list <- i
+	}
 	return wg, list
 }
