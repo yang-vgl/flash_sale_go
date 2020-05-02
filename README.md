@@ -12,9 +12,9 @@ products.GetProduct(500)
 
 result:
 
-![AB test](../imgs/ab.png)
+![AB test](./imgs/ab.png)
 
-![Outout](../imgs/result.png)
+![Outout](./imgs/result.png)
 
 
 
